@@ -1,8 +1,6 @@
 package com.duyhk.newswebsite.com.duyhk.newswebsite.controllers;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.duyhk.newswebsite.com.duyhk.newswebsite.models.dto.SigninDTO;
 import com.duyhk.newswebsite.com.duyhk.newswebsite.models.dto.SignupDTO;
-import com.duyhk.newswebsite.com.duyhk.newswebsite.models.entities.RoleEntity;
 import com.duyhk.newswebsite.com.duyhk.newswebsite.models.entities.UserEntity;
-import com.duyhk.newswebsite.com.duyhk.newswebsite.models.enums.ERole;
 import com.duyhk.newswebsite.com.duyhk.newswebsite.models.responses.ResponseJwt;
-import com.duyhk.newswebsite.com.duyhk.newswebsite.models.responses.ResponseMultiMessage;
-import com.duyhk.newswebsite.com.duyhk.newswebsite.models.responses.ResponseOneMessage;
+import com.duyhk.newswebsite.com.duyhk.newswebsite.models.responses.ResponseMessage;
 import com.duyhk.newswebsite.com.duyhk.newswebsite.models.responses.ResponseService;
 import com.duyhk.newswebsite.com.duyhk.newswebsite.security.jwt.JwtUtils;
 import com.duyhk.newswebsite.com.duyhk.newswebsite.security.services.UserDetailsImpl;
@@ -77,7 +71,7 @@ public class AuthController {
 		if (validDataSignUp.isValidData() == false) {
 			return ResponseEntity
 			          .badRequest()
-			          .body(new ResponseMultiMessage(validDataSignUp.getMessages()));
+			          .body(validDataSignUp.getErrors());
 		}
 		
 		UserEntity user = new UserEntity();
@@ -85,13 +79,9 @@ public class AuthController {
 		user.setPassword(encoder.encode(signupDto.getPassword()));
 		user.setEmail(signupDto.getEmail());
 		
-		Set<RoleEntity> roles = new HashSet<>();
-		roles.add(new RoleEntity(ERole.ROLE_USER));
-		user.setRoles(roles);
+		userService.create(user);
 		
-		userService.save(user);
-		
-		return ResponseEntity.ok(new ResponseOneMessage("User registered successfully!"));
+		return ResponseEntity.ok(new ResponseMessage("User registered successfully!"));
 	}
 
 }

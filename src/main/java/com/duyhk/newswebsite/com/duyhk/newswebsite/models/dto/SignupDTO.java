@@ -2,9 +2,9 @@ package com.duyhk.newswebsite.com.duyhk.newswebsite.models.dto;
 
 public class SignupDTO {
 	
-	private String username;
-	private String email;
-	private String password;
+	public String username;
+	public String email;
+	public String password;
 	public String getUsername() {
 		return username;
 	}

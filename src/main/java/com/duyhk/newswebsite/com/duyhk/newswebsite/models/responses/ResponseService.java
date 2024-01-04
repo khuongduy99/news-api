@@ -1,13 +1,13 @@
 package com.duyhk.newswebsite.com.duyhk.newswebsite.models.responses;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResponseService {
 	
 	private boolean validData = true;
 	
-	private List<String> messages = new ArrayList<>();
+	private Map<String, String> errors = new HashMap<>();
 
 	public boolean isValidData() {
 		return validData;
@@ -17,16 +17,15 @@ public class ResponseService {
 		this.validData = validData;
 	}
 
-	public List<String> getMessages() {
-		return messages;
+	public Map<String, String> getErrors() {
+		return errors;
 	}
 
-	public void setMessages(List<String> messages) {
-		this.messages = messages;
+	public void setErrors(Map<String, String> errors) {
+		this.errors = errors;
 	}
-	
-	public void addMessage(String message) {
-		this.messages.add(message);
+	public void addError(String fieldName, String errorMessage) {
+		this.errors.put(fieldName, errorMessage);
 	}
-	
+
 }

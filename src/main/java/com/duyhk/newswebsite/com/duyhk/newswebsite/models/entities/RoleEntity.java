@@ -6,47 +6,31 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "roles")
-public class RoleEntity {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+@Table(name = "role", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+public class RoleEntity extends CommonEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private ERole name;
-	
-	
 
-	public Long getId() {
-		return id;
+	public RoleEntity(ERole name) {
+		super();
+		this.name = name;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public RoleEntity() {
 	}
 
+	// Getter Setter
 	public ERole getName() {
 		return name;
 	}
 
 	public void setName(ERole name) {
 		this.name = name;
-	}
-
-	public RoleEntity(ERole name) {
-		super();
-		this.name = name;
-	}
-	
-	public RoleEntity() {
-		
 	}
 }

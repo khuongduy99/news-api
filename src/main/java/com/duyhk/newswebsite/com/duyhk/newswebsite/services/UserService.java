@@ -8,5 +8,5 @@ import com.duyhk.newswebsite.com.duyhk.newswebsite.models.responses.ResponseServ
 public interface UserService {
 	
 	ResponseService checkDataSignup(SignupDTO signupDto);
-	void save(UserEntity user);
+	void create(UserEntity user);
 }
